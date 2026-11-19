@@ -15,21 +15,26 @@
 <style>
   html, body { margin: 0; height: 100%; background: #F5F1EA; font-family: -apple-system, Helvetica, Arial, sans-serif; color: #1d2420; }
   body { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 24px; box-sizing: border-box; }
-  img { width: 120px; height: 120px; border-radius: 26px; margin-bottom: 18px; }
-  a.btn { display: inline-block; background: #1f4d36; color: #fff; text-decoration: none; padding: 14px 26px; border-radius: 12px; font-size: 17px; margin-top: 8px; }
+  img.logo { width: 120px; height: 120px; border-radius: 26px; margin-bottom: 18px; }
   p { max-width: 320px; line-height: 1.5; color: #555; }
+  iframe { position: fixed; inset: 0; width: 100%; height: 100%; border: 0; background: #F5F1EA; }
 </style>
 </head>
 <body>
-<img src="apple-touch-icon.png" alt="Eleven Degree">
-<a class="btn" id="go" href="https://script.google.com/macros/s/AKfycby_cuz0eUP5aAchqdQe7ope0VLFlA_XxveiI390JFwStrphsyg1CDEzotBWII1H7wA/exec">Open booking tool</a>
-<p id="tip">To install: tap the Share button, then “Add to Home Screen”.</p>
+<img class="logo" src="apple-touch-icon.png" alt="Eleven Degree">
+<p>To install: tap the Share button, then “Add to Home Screen”. Then open Eleven Degree from your Home Screen.</p>
 <script>
-  // Opened from the Home Screen icon -> go straight to the booking tool.
-  // Opened in a normal Safari tab -> stay here so the logo is used as the icon.
+  var APP_URL = "https://script.google.com/macros/s/AKfycby_cuz0eUP5aAchqdQe7ope0VLFlA_XxveiI390JFwStrphsyg1CDEzotBWII1H7wA/exec";
   var standalone = (window.navigator.standalone === true) ||
                    (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches);
-  if (standalone) { location.replace(document.getElementById('go').href); }
+  // Opened from the Home Screen icon -> show the booking tool full-screen inside this page.
+  // Opened in a normal browser tab -> keep this install page (so the logo is used as the icon).
+  if (standalone) {
+    var f = document.createElement('iframe');
+    f.src = APP_URL;
+    f.setAttribute('allow', 'camera; clipboard-write; clipboard-read');
+    document.body.appendChild(f);
+  }
 </script>
 </body>
 </html>
